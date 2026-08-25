@@ -25,6 +25,18 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+.venv/
+venv/
+__pycache__/
+*.pyc
+build/
+dist/
+*.spec.bak
+build_log.txt
+*.pfx
+*.p12
+*.cer
+*.key
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
