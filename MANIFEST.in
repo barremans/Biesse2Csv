@@ -1,0 +1,33 @@
+# MANIFEST.in
+# Beschrijving: Package manifest
+# Applicatie: Biesse2Csv
+# Versie: 1.0.0
+# Auteur: Barremans
+
+# Include belangrijke bestanden in distributie
+include README.md
+include LICENSE
+include requirements.txt
+include pyproject.toml
+
+# Include configuratie
+recursive-include config *.json
+
+# Include assets
+recursive-include assets *.png *.ico *.jpg *.jpeg
+
+# Include CSS/QSS
+recursive-include css *.css *.qss
+
+# Include documentatie
+recursive-include docs *.md
+
+# Include i18n locales
+recursive-include i18n/locales *.json
+
+# Exclude compiled en cache bestanden
+global-exclude __pycache__
+global-exclude *.py[cod]
+global-exclude .DS_Store
+global-exclude *.so
+global-exclude .pytest_cache

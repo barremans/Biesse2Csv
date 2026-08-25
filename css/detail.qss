@@ -1,0 +1,126 @@
+/*
+css\detail.qss
+
+Beschrijving: Detail window stylesheet
+Applicatie: Biesse2Csv
+Versie: 1.0.0
+Auteur: Barremans
+*/
+
+/* ================================================
+   detail.qss – Styling voor DetailWindow
+   ================================================ */
+
+/* ----------------------------------------------
+   1. Basisinstellingen voor DetailWindow (QDialog)
+   ---------------------------------------------- */
+DetailWindow, DetailWindow QWidget {
+    background-color: #ffffff;
+    font-family: "Segoe UI", Verdana, Arial, sans-serif;
+    font-size: 11px;
+    color: #333333;
+}
+
+/* ----------------------------------------------
+   2. Titellabel bovenaan
+   ---------------------------------------------- */
+DetailWindow > QLabel {
+    font-size: 12px;
+    font-weight: bold;
+    color: #333333;
+    margin: 8px 0px;
+}
+
+/* ----------------------------------------------
+   3. QTabWidget-containers
+   ---------------------------------------------- */
+QTabWidget {
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+}
+
+/* ----------------------------------------------
+   4. Tabs (QTabBar::tab)
+   ---------------------------------------------- */
+QTabBar::tab {
+    background: #f0f0f0;
+    border: 1px solid #cccccc;
+    border-bottom: none;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    padding: 6px 12px;
+    margin-right: -1px;
+    font-size: 11px;
+    color: #333333;
+}
+
+QTabBar::tab:selected {
+    background: #ffffff;
+    border: 1px solid #cccccc;
+    border-bottom: 1px solid #ffffff;
+    color: #333333;
+    font-weight: bold;
+}
+
+QTabBar::tab:hover {
+    background: #e8e8e8;
+}
+
+/* ----------------------------------------------
+   5. Tabellen binnen DetailWindow
+   ---------------------------------------------- */
+DetailWindow QTableWidget {
+    border: 1px solid #cccccc;
+    gridline-color: #dddddd;
+    selection-background-color: #e6f2ff;
+    selection-color: #333333;
+    font-size: 11px;
+    background-color: #f9f9f9;
+}
+
+DetailWindow QHeaderView::section {
+    background-color: #f0f0f0;
+    border: 1px solid #cccccc;
+    padding: 4px;
+    font-weight: bold;
+    color: #333333;
+}
+
+/* ----------------------------------------------
+   6. Upload-knop
+   ---------------------------------------------- */
+DetailWindow QPushButton {
+    padding: 6px 12px;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    color: #333333;
+}
+
+DetailWindow QPushButton:hover {
+    background-color: #e6e6e6;
+}
+
+/* ----------------------------------------------
+   7. ScrollArea
+   ---------------------------------------------- */
+DetailWindow QScrollArea {
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+}
+
+/* ----------------------------------------------
+   8. Scrollbars
+   ---------------------------------------------- */
+DetailWindow QScrollBar:vertical {
+    background: #f0f0f0;
+    width: 12px;
+}
+
+DetailWindow QScrollBar::handle:vertical {
+    background: #cccccc;
+    min-height: 20px;
+    border-radius: 4px;
+}

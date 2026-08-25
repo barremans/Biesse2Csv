@@ -1,0 +1,28 @@
+{
+    "meta": {
+        "project": "Biesse2Csv",
+        "version": "1.0.0",
+        "date": "2026-08-24",
+        "author": "Bart Bossuyt",
+        "description": "Applicatie-instellingen voor Biesse2Csv",
+        "changes": [
+            {
+                "version": "1.0.0",
+                "date": "2026-08-24",
+                "description": "Initiële versie met taal-, map- en conversie-instellingen."
+            }
+        ]
+    },
+    "general": {
+        "language": "nl_NL"
+    },
+    "folders": {
+        "input_folder": "C:/Users/BBossuyt/Downloads",
+        "output_folder": "C:/Users/BBossuyt/Downloads/test m520"
+    },
+    "conversion": {
+        "delimiter": ";",
+        "encoding": "utf-8-sig",
+        "overwrite_existing": false
+    }
+}

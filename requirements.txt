@@ -1,0 +1,18 @@
+# requirements.txt
+#
+# Beschrijving: Python dependencies
+# Applicatie: Biesse2Csv
+# Versie: 1.0.0
+# Auteur: Barremans
+
+# Core dependencies
+# Voeg hier je packages toe
+# Bijvoorbeeld:
+# PyQt6>=6.6.1
+# requests>=2.31.0
+# Pillow>=10.1.0
+
+# Note: Voor development dependencies, zie pyproject.toml [project.optional-dependencies]
+# Genereer deze file automatisch: python scripts/generate_requirements.py
+PySide6>=6.8,<7
+openpyxl>=3.1,<4
