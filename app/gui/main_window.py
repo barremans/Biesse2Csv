@@ -2,8 +2,8 @@
 ================================================================================
 Module:     app/gui/main_window.py
 Project:    Biesse2Csv
-Versie:     1.4.0
-Datum:      2026-08-25
+Versie:     1.7.0
+Datum:      2026-08-26
 Auteur:     Bart Bossuyt
 
 Doel:       Hoofdvenster van Biesse2Csv.
@@ -13,6 +13,10 @@ Doel:       Hoofdvenster van Biesse2Csv.
             Opent na conversie automatisch het eerste aangemaakte XLSX-bestand.
 
 Wijzigingen:
+  v1.7.0 (2026-08-26)  Foutredenen worden permanent opgeslagen en zijn via
+                       tooltip/Foutdetails zichtbaar. Bestanden kunnen
+                       permanent uitgesloten worden en zijn standaard verborgen.
+                       Filters toegevoegd voor bestandsnaam en status.
   v1.0.0 (2026-08-24)  Initiële versie — QMainWindow met mapselectie,
                        bestandenoverzicht, conversie, statusbalk,
                        menubalk en runtime taalwissel.
@@ -30,6 +34,15 @@ Wijzigingen:
                        reeds bestaat en automatisch overschrijven uit staat.
                        Gebruiker kan overschrijven, overslaan of annuleren.
                        Eindmelding toont nu ook het aantal overgeslagen bestanden.
+  v1.5.0 (2026-08-26)  Selecteerbare bestanden toegevoegd. Alleen aangevinkte
+                       bestanden worden geconverteerd. Knoppen toegevoegd voor
+                       alles selecteren, selectie wissen en niet-verwerkte
+                       bestanden selecteren. Permanente conversiehistoriek
+                       geïntegreerd met status voor verwerkt/gewijzigd.
+  v1.6.0 (2026-08-26)  Overwrite-workflow uitgebreid met 'Ja op alles'.
+                       Niet-verwerkte bestanden krijgen voorrang en mogen
+                       bestaande output zonder bevestiging overschrijven.
+                       'Ja op alles' geldt voor de resterende huidige batch.
 ================================================================================
 """
 
@@ -38,9 +51,12 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
+from PySide6.QtCore import Qt
 from PySide6.QtGui import QAction, QActionGroup, QKeySequence
 from PySide6.QtWidgets import (
     QApplication,
+    QCheckBox,
+    QComboBox,
     QDialog,
     QFileDialog,
     QHBoxLayout,
@@ -57,6 +73,7 @@ from PySide6.QtWidgets import (
 
 from app.gui.dialogs.settings_dialog import SettingsDialog
 from helpers.biesse_converter import BiesseConverter
+from helpers.conversion_history import ConversionHistory
 
 
 class MainWindow(QMainWindow):
@@ -73,6 +90,7 @@ class MainWindow(QMainWindow):
         self.translator = translator
 
         self.source_files: list[Path] = []
+        self.conversion_history = ConversionHistory()
 
         self._build_ui()
         self._build_menu()
@@ -152,7 +170,7 @@ class MainWindow(QMainWindow):
         self.files_found_label = QLabel()
 
         self.file_table = QTableWidget()
-        self.file_table.setColumnCount(3)
+        self.file_table.setColumnCount(5)
 
         self.file_table.setSelectionBehavior(
             QTableWidget.SelectionBehavior.SelectRows
@@ -173,6 +191,45 @@ class MainWindow(QMainWindow):
         header.setStretchLastSection(
             True
         )
+
+        # ----------------------------------------------------------------------
+        # Filters
+        # ----------------------------------------------------------------------
+
+        self.filter_label = QLabel()
+        self.filter_edit = QLineEdit()
+        self.filter_edit.setClearButtonEnabled(True)
+
+        self.status_filter = QComboBox()
+
+        self.show_excluded_checkbox = QCheckBox()
+        self.show_excluded_checkbox.setChecked(False)
+
+        filter_layout = QHBoxLayout()
+        filter_layout.addWidget(self.filter_label)
+        filter_layout.addWidget(self.filter_edit, 1)
+        filter_layout.addWidget(self.status_filter)
+        filter_layout.addWidget(self.show_excluded_checkbox)
+
+        # ----------------------------------------------------------------------
+        # Selectieknoppen
+        # ----------------------------------------------------------------------
+
+        self.select_all_button = QPushButton()
+        self.clear_selection_button = QPushButton()
+        self.select_unprocessed_button = QPushButton()
+        self.exclude_selected_button = QPushButton()
+        self.restore_excluded_button = QPushButton()
+        self.error_details_button = QPushButton()
+
+        selection_layout = QHBoxLayout()
+        selection_layout.addWidget(self.select_all_button)
+        selection_layout.addWidget(self.clear_selection_button)
+        selection_layout.addWidget(self.select_unprocessed_button)
+        selection_layout.addWidget(self.exclude_selected_button)
+        selection_layout.addWidget(self.restore_excluded_button)
+        selection_layout.addWidget(self.error_details_button)
+        selection_layout.addStretch(1)
 
         # ----------------------------------------------------------------------
         # Converteren
@@ -216,9 +273,17 @@ class MainWindow(QMainWindow):
             self.files_found_label
         )
 
+        main_layout.addLayout(
+            filter_layout
+        )
+
         main_layout.addWidget(
             self.file_table,
             1,
+        )
+
+        main_layout.addLayout(
+            selection_layout
         )
 
         main_layout.addSpacing(
@@ -395,6 +460,46 @@ class MainWindow(QMainWindow):
 
         self.convert_button.clicked.connect(
             self.convert_files
+        )
+
+        self.select_all_button.clicked.connect(
+            self.select_all_files
+        )
+
+        self.clear_selection_button.clicked.connect(
+            self.clear_file_selection
+        )
+
+        self.select_unprocessed_button.clicked.connect(
+            self.select_unprocessed_files
+        )
+
+        self.exclude_selected_button.clicked.connect(
+            self.exclude_selected_files
+        )
+
+        self.restore_excluded_button.clicked.connect(
+            self.restore_excluded_files
+        )
+
+        self.error_details_button.clicked.connect(
+            self.show_selected_error_details
+        )
+
+        self.filter_edit.textChanged.connect(
+            self._apply_table_filters
+        )
+
+        self.status_filter.currentIndexChanged.connect(
+            self._apply_table_filters
+        )
+
+        self.show_excluded_checkbox.toggled.connect(
+            self._apply_table_filters
+        )
+
+        self.file_table.itemDoubleClicked.connect(
+            self._table_item_double_clicked
         )
 
         self.input_edit.editingFinished.connect(
@@ -615,14 +720,43 @@ class MainWindow(QMainWindow):
                 source_file
             )
 
+            select_item = QTableWidgetItem()
+            select_item.setFlags(
+                Qt.ItemFlag.ItemIsEnabled
+                | Qt.ItemFlag.ItemIsUserCheckable
+            )
+            select_item.setCheckState(
+                Qt.CheckState.Unchecked
+            )
+
             filename_item = QTableWidgetItem(
                 source_file.name
             )
 
+            history_status = self.conversion_history.get_status(
+                source_file
+            )
+
             status_item = QTableWidgetItem(
-                self.translator.tr(
-                    "status.waiting"
+                self._history_status_text(
+                    history_status
                 )
+            )
+
+            error_text = self.conversion_history.get_error(
+                source_file
+            )
+
+            if error_text:
+                status_item.setToolTip(
+                    error_text
+                )
+
+            processed_item = QTableWidgetItem(
+                self.conversion_history.get_processed_at(
+                    source_file
+                )
+                or "—"
             )
 
             output_item = QTableWidgetItem(
@@ -632,18 +766,30 @@ class MainWindow(QMainWindow):
             self.file_table.setItem(
                 row,
                 0,
-                filename_item,
+                select_item,
             )
 
             self.file_table.setItem(
                 row,
                 1,
-                status_item,
+                filename_item,
             )
 
             self.file_table.setItem(
                 row,
                 2,
+                status_item,
+            )
+
+            self.file_table.setItem(
+                row,
+                3,
+                processed_item,
+            )
+
+            self.file_table.setItem(
+                row,
+                4,
                 output_item,
             )
 
@@ -654,8 +800,288 @@ class MainWindow(QMainWindow):
             )
         )
 
+        has_files = bool(
+            self.source_files
+        )
+
         self.convert_button.setEnabled(
-            bool(self.source_files)
+            has_files
+        )
+
+        self.select_all_button.setEnabled(
+            has_files
+        )
+
+        self.clear_selection_button.setEnabled(
+            has_files
+        )
+
+        self.select_unprocessed_button.setEnabled(
+            has_files
+        )
+
+        self.exclude_selected_button.setEnabled(
+            has_files
+        )
+
+        self.restore_excluded_button.setEnabled(
+            has_files
+        )
+
+        self.error_details_button.setEnabled(
+            has_files
+        )
+
+        self._apply_table_filters()
+
+    def _history_status_text(
+        self,
+        history_status: str,
+    ) -> str:
+        """Vertaal een interne historiekstatus naar zichtbare tekst."""
+
+        status_keys = {
+            ConversionHistory.STATUS_NOT_PROCESSED:
+                "status.not_processed",
+            ConversionHistory.STATUS_PROCESSED:
+                "status.processed",
+            ConversionHistory.STATUS_MODIFIED:
+                "status.modified",
+            ConversionHistory.STATUS_ERROR:
+                "status.error",
+            ConversionHistory.STATUS_EXCLUDED:
+                "status.excluded",
+        }
+
+        return self.translator.tr(
+            status_keys.get(
+                history_status,
+                "status.not_processed",
+            )
+        )
+
+    def _selected_source_rows(
+        self,
+    ) -> list[tuple[int, Path]]:
+        """Geef alleen de aangevinkte bronbestanden met hun tabelrij terug."""
+
+        selected: list[tuple[int, Path]] = []
+
+        for row, source_file in enumerate(
+            self.source_files
+        ):
+            select_item = self.file_table.item(
+                row,
+                0,
+            )
+
+            if (
+                not self.file_table.isRowHidden(row)
+                and select_item is not None
+                and select_item.checkState()
+                == Qt.CheckState.Checked
+            ):
+                selected.append(
+                    (row, source_file)
+                )
+
+        return selected
+
+    def select_all_files(self) -> None:
+        """Vink alle gevonden bestanden aan."""
+
+        for row in range(
+            self.file_table.rowCount()
+        ):
+            item = self.file_table.item(
+                row,
+                0,
+            )
+
+            if (
+                item is not None
+                and not self.file_table.isRowHidden(row)
+            ):
+                item.setCheckState(
+                    Qt.CheckState.Checked
+                )
+
+    def clear_file_selection(self) -> None:
+        """Wis alle bestandsselecties."""
+
+        for row in range(
+            self.file_table.rowCount()
+        ):
+            item = self.file_table.item(
+                row,
+                0,
+            )
+
+            if item is not None:
+                item.setCheckState(
+                    Qt.CheckState.Unchecked
+                )
+
+    def select_unprocessed_files(self) -> None:
+        """Vink bestanden aan die nog niet verwerkt of later gewijzigd zijn."""
+
+        for row, source_file in enumerate(
+            self.source_files
+        ):
+            item = self.file_table.item(
+                row,
+                0,
+            )
+
+            if item is None:
+                continue
+
+            history_status = self.conversion_history.get_status(
+                source_file
+            )
+
+            should_select = history_status in {
+                ConversionHistory.STATUS_NOT_PROCESSED,
+                ConversionHistory.STATUS_MODIFIED,
+            }
+
+            item.setCheckState(
+                Qt.CheckState.Checked
+                if should_select
+                else Qt.CheckState.Unchecked
+            )
+
+    def _apply_table_filters(self) -> None:
+        """Pas bestandsnaam-, status- en uitsluitingsfilters toe."""
+
+        search_text = self.filter_edit.text().strip().casefold()
+        status_value = self.status_filter.currentData()
+        show_excluded = self.show_excluded_checkbox.isChecked()
+
+        for row, source_file in enumerate(self.source_files):
+            history_status = self.conversion_history.get_status(
+                source_file
+            )
+
+            filename_match = (
+                not search_text
+                or search_text in source_file.name.casefold()
+            )
+
+            status_match = (
+                not status_value
+                or history_status == status_value
+            )
+
+            excluded_match = (
+                show_excluded
+                or history_status != ConversionHistory.STATUS_EXCLUDED
+            )
+
+            self.file_table.setRowHidden(
+                row,
+                not (
+                    filename_match
+                    and status_match
+                    and excluded_match
+                ),
+            )
+
+    def exclude_selected_files(self) -> None:
+        """Sluit geselecteerde bestanden permanent uit van het standaardoverzicht."""
+
+        selected = self._selected_source_rows()
+
+        for _row, source_file in selected:
+            self.conversion_history.set_excluded(
+                source_file,
+                True,
+            )
+
+        self._refresh_file_table()
+        self._apply_table_filters()
+
+    def restore_excluded_files(self) -> None:
+        """Maak uitsluiting ongedaan voor aangevinkte zichtbare bestanden."""
+
+        for row, source_file in enumerate(self.source_files):
+            item = self.file_table.item(row, 0)
+
+            if (
+                item is not None
+                and item.checkState() == Qt.CheckState.Checked
+            ):
+                self.conversion_history.set_excluded(
+                    source_file,
+                    False,
+                )
+
+        self._refresh_file_table()
+        self._apply_table_filters()
+
+    def show_selected_error_details(self) -> None:
+        """Toon de foutreden van het eerste geselecteerde foutbestand."""
+
+        selected = self._selected_source_rows()
+
+        if not selected:
+            QMessageBox.information(
+                self,
+                self.translator.tr("message.no_selection.title"),
+                self.translator.tr("message.no_selection.text"),
+            )
+            return
+
+        _row, source_file = selected[0]
+        error_text = self.conversion_history.get_error(
+            source_file
+        )
+
+        if not error_text:
+            QMessageBox.information(
+                self,
+                self.translator.tr("message.error_details.title"),
+                self.translator.tr("message.error_details.none"),
+            )
+            return
+
+        QMessageBox.information(
+            self,
+            self.translator.tr("message.error_details.title"),
+            self.translator.tr(
+                "message.error_details.text",
+                filename=source_file.name,
+                error=error_text,
+            ),
+        )
+
+    def _table_item_double_clicked(
+        self,
+        item: QTableWidgetItem,
+    ) -> None:
+        """Toon bij dubbelklik op een foutstatus direct de foutdetails."""
+
+        row = item.row()
+
+        if not (0 <= row < len(self.source_files)):
+            return
+
+        source_file = self.source_files[row]
+        error_text = self.conversion_history.get_error(
+            source_file
+        )
+
+        if not error_text:
+            return
+
+        QMessageBox.information(
+            self,
+            self.translator.tr("message.error_details.title"),
+            self.translator.tr(
+                "message.error_details.text",
+                filename=source_file.name,
+                error=error_text,
+            ),
         )
 
     # ==========================================================================
@@ -663,7 +1089,7 @@ class MainWindow(QMainWindow):
     # ==========================================================================
 
     def convert_files(self) -> None:
-        """Converteer alle gevonden bestanden naar CSV en XLSX."""
+        """Converteer uitsluitend de door de gebruiker geselecteerde bestanden."""
 
         input_text = self.input_edit.text().strip()
 
@@ -743,6 +1169,20 @@ class MainWindow(QMainWindow):
             )
             return
 
+        selected_files = self._selected_source_rows()
+
+        if not selected_files:
+            QMessageBox.information(
+                self,
+                self.translator.tr(
+                    "message.no_selection.title"
+                ),
+                self.translator.tr(
+                    "message.no_selection.text"
+                ),
+            )
+            return
+
         overwrite = self.settings.get(
             "conversion",
             "overwrite_existing",
@@ -769,6 +1209,7 @@ class MainWindow(QMainWindow):
         success_count = 0
         failed_count = 0
         skipped_count = 0
+        overwrite_all_remaining = False
 
         converted_xlsx_files: list[Path] = []
 
@@ -782,12 +1223,10 @@ class MainWindow(QMainWindow):
             )
         )
 
-        for row, source_file in enumerate(
-            self.source_files
-        ):
+        for row, source_file in selected_files:
             status_item = self.file_table.item(
                 row,
-                1,
+                2,
             )
 
             if status_item is None:
@@ -819,8 +1258,17 @@ class MainWindow(QMainWindow):
                 )
             )
 
+            history_status = self.conversion_history.get_status(
+                source_file
+            )
+
+            # Nog niet verwerkt heeft voorrang op reeds aanwezige output:
+            # deze output mag zonder vraag worden vervangen.
             overwrite_this_file = bool(
                 overwrite
+                or overwrite_all_remaining
+                or history_status
+                == ConversionHistory.STATUS_NOT_PROCESSED
             )
 
             if (
@@ -843,31 +1291,26 @@ class MainWindow(QMainWindow):
                     existing_files
                 )
 
-                if (
-                    answer
-                    == QMessageBox.StandardButton.Cancel
-                ):
+                if answer == "cancel":
                     status_item.setText(
                         self.translator.tr(
                             "status.skipped"
                         )
                     )
-
                     skipped_count += 1
                     break
 
-                if (
-                    answer
-                    != QMessageBox.StandardButton.Yes
-                ):
+                if answer == "no":
                     status_item.setText(
                         self.translator.tr(
                             "status.skipped"
                         )
                     )
-
                     skipped_count += 1
                     continue
+
+                if answer == "yes_to_all":
+                    overwrite_all_remaining = True
 
                 overwrite_this_file = True
 
@@ -889,6 +1332,8 @@ class MainWindow(QMainWindow):
                 continue
 
             except Exception as exc:
+                error_text = str(exc)
+
                 status_item.setText(
                     self.translator.tr(
                         "status.error"
@@ -896,7 +1341,12 @@ class MainWindow(QMainWindow):
                 )
 
                 status_item.setToolTip(
-                    str(exc)
+                    error_text
+                )
+
+                self.conversion_history.mark_error(
+                    source_file=source_file,
+                    error=error_text,
                 )
 
                 failed_count += 1
@@ -905,11 +1355,29 @@ class MainWindow(QMainWindow):
 
             status_item.setText(
                 self.translator.tr(
-                    "status.success"
+                    "status.processed"
                 )
             )
 
             success_count += 1
+
+            self.conversion_history.mark_success(
+                source_file=source_file,
+                csv_file=result.csv_file,
+                xlsx_file=result.xlsx_file,
+            )
+
+            processed_item = self.file_table.item(
+                row,
+                3,
+            )
+
+            if processed_item is not None:
+                processed_item.setText(
+                    self.conversion_history.get_processed_at(
+                        source_file
+                    )
+                )
 
             converted_xlsx_files.append(
                 result.xlsx_file
@@ -950,18 +1418,22 @@ class MainWindow(QMainWindow):
     def _ask_overwrite_existing(
         self,
         existing_files: list[str],
-    ) -> QMessageBox.StandardButton:
+    ) -> str:
         """
         Vraag wat er moet gebeuren wanneer outputbestanden reeds bestaan.
 
         Returns:
-            QMessageBox.StandardButton.Yes:
-                Bestaande output overschrijven.
+            "yes":
+                Alleen dit bronbestand overschrijven.
 
-            QMessageBox.StandardButton.No:
+            "yes_to_all":
+                Dit en alle volgende conflicten in de huidige batch
+                overschrijven.
+
+            "no":
                 Dit bronbestand overslaan.
 
-            QMessageBox.StandardButton.Cancel:
+            "cancel":
                 Verdere conversie stoppen.
         """
 
@@ -975,17 +1447,65 @@ class MainWindow(QMainWindow):
             filenames=filenames,
         )
 
-        return QMessageBox.question(
-            self,
+        dialog = QMessageBox(
+            QMessageBox.Icon.Question,
             self.translator.tr(
                 "message.overwrite.title"
             ),
             message,
-            QMessageBox.StandardButton.Yes
-            | QMessageBox.StandardButton.No
-            | QMessageBox.StandardButton.Cancel,
-            QMessageBox.StandardButton.No,
+            parent=self,
         )
+
+        yes_button = dialog.addButton(
+            self.translator.tr(
+                "button.yes"
+            ),
+            QMessageBox.ButtonRole.YesRole,
+        )
+
+        yes_to_all_button = dialog.addButton(
+            self.translator.tr(
+                "button.yes_to_all",
+                default="Ja op alles",
+            ),
+            QMessageBox.ButtonRole.YesRole,
+        )
+
+        no_button = dialog.addButton(
+            self.translator.tr(
+                "button.no"
+            ),
+            QMessageBox.ButtonRole.NoRole,
+        )
+
+        cancel_button = dialog.addButton(
+            self.translator.tr(
+                "button.cancel"
+            ),
+            QMessageBox.ButtonRole.RejectRole,
+        )
+
+        dialog.setDefaultButton(
+            no_button
+        )
+
+        dialog.exec()
+
+        clicked_button = dialog.clickedButton()
+
+        if clicked_button is yes_button:
+            return "yes"
+
+        if clicked_button is yes_to_all_button:
+            return "yes_to_all"
+
+        if clicked_button is no_button:
+            return "no"
+
+        if clicked_button is cancel_button:
+            return "cancel"
+
+        return "cancel"
 
     # ==========================================================================
     # Output openen
@@ -1147,26 +1667,114 @@ class MainWindow(QMainWindow):
             tr("main.convert")
         )
 
+        self.select_all_button.setText(
+            tr("main.select_all")
+        )
+
+        self.clear_selection_button.setText(
+            tr("main.clear_selection")
+        )
+
+        self.select_unprocessed_button.setText(
+            tr("main.select_unprocessed")
+        )
+
+        self.exclude_selected_button.setText(
+            tr("main.exclude_selected")
+        )
+
+        self.restore_excluded_button.setText(
+            tr("main.restore_excluded")
+        )
+
+        self.error_details_button.setText(
+            tr("main.error_details")
+        )
+
+        self.filter_label.setText(
+            tr("main.filter")
+        )
+
+        self.filter_edit.setPlaceholderText(
+            tr("main.filter_placeholder")
+        )
+
+        self.show_excluded_checkbox.setText(
+            tr("main.show_excluded")
+        )
+
+        current_status_filter = self.status_filter.currentData()
+
+        self.status_filter.blockSignals(True)
+        self.status_filter.clear()
+        self.status_filter.addItem(
+            tr("filter.all_statuses"),
+            None,
+        )
+        self.status_filter.addItem(
+            tr("status.not_processed"),
+            ConversionHistory.STATUS_NOT_PROCESSED,
+        )
+        self.status_filter.addItem(
+            tr("status.processed"),
+            ConversionHistory.STATUS_PROCESSED,
+        )
+        self.status_filter.addItem(
+            tr("status.modified"),
+            ConversionHistory.STATUS_MODIFIED,
+        )
+        self.status_filter.addItem(
+            tr("status.error"),
+            ConversionHistory.STATUS_ERROR,
+        )
+        self.status_filter.addItem(
+            tr("status.excluded"),
+            ConversionHistory.STATUS_EXCLUDED,
+        )
+
+        if current_status_filter is not None:
+            index = self.status_filter.findData(
+                current_status_filter
+            )
+            if index >= 0:
+                self.status_filter.setCurrentIndex(
+                    index
+                )
+
+        self.status_filter.blockSignals(False)
+
         # ----------------------------------------------------------------------
         # Tabel
         # ----------------------------------------------------------------------
 
         self.file_table.setHorizontalHeaderLabels(
             [
+                tr("main.table.select"),
                 tr("main.table.filename"),
                 tr("main.table.status"),
+                tr("main.table.processed_at"),
                 tr("main.table.output"),
             ]
         )
 
         self.file_table.setColumnWidth(
             0,
-            220,
+            70,
         )
 
         self.file_table.setColumnWidth(
             1,
-            120,
+            220,
+        )
+
+        self.file_table.setColumnWidth(
+            2,
+            180,
+        )
+
+        self.file_table.setColumnWidth(
+            3,
+            155,
         )
 
         # ----------------------------------------------------------------------

@@ -2,7 +2,7 @@
 ================================================================================
 Module:     app/main.py
 Project:    Biesse2Csv
-Versie:     1.2.0
+Versie:     1.2.1
 Datum:      2026-08-25
 Auteur:     Bart Bossuyt
 
@@ -17,8 +17,10 @@ Wijzigingen:
                        Projectpaden en applicatie-icoon centraal ingesteld.
   v1.2.0 (2026-08-25)  Runtime-resources PyInstaller-safe gemaakt.
                        Gebruikersinstellingen verplaatst naar
-                       %APPDATA%\Biesse2Csv\settings.json met eenmalige
-                       migratie van de oude config\settings.json.
+                       %APPDATA%\\Biesse2Csv\\settings.json met eenmalige
+                       migratie van de oude config\\settings.json.
+  v1.2.1 (2026-08-26)  SyntaxWarning voor Windows-paden in docstrings
+                       opgelost door backslashes correct te escapen.
 ================================================================================
 """
 
@@ -69,7 +71,7 @@ def _user_data_dir() -> Path:
     Geef de schrijfbare gebruikersmap voor Biesse2Csv terug.
 
     Windows:
-        %APPDATA%\Biesse2Csv
+        %APPDATA%\\Biesse2Csv
 
     Fallback:
         ~/AppData/Roaming/Biesse2Csv

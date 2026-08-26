@@ -1,8 +1,8 @@
 {
     "meta": {
         "project": "Biesse2Csv",
-        "version": "1.1.0",
-        "date": "2026-08-25",
+        "version": "1.4.0",
+        "date": "2026-08-26",
         "author": "Bart Bossuyt",
         "language": "nl_NL",
         "description": "Nederlandse vertalingen voor de Biesse2Csv GUI",
@@ -16,6 +16,26 @@
                 "version": "1.1.0",
                 "date": "2026-08-25",
                 "description": "Vertalingen toegevoegd voor bevestiging bij bestaande CSV/XLSX-output en voor het aantal overgeslagen bestanden in de eindmelding."
+            },
+            {
+                "version": "1.2.0",
+                "date": "2026-08-26",
+                "description": "Vertalingen toegevoegd voor bestandsselectie en conversiehistoriek."
+            },
+            {
+                "version": "1.2.1",
+                "date": "2026-08-26",
+                "description": "Melding toegevoegd voor een onbereikbare of niet-geauthenticeerde bronmap."
+            },
+            {
+                "version": "1.3.0",
+                "date": "2026-08-26",
+                "description": "Tekst voor overschrijven uitgebreid met 'Ja op alles'."
+            },
+            {
+                "version": "1.4.0",
+                "date": "2026-08-26",
+                "description": "Filters, foutdetails en permanente uitsluitingen toegevoegd."
             }
         ]
     },
@@ -71,7 +91,7 @@
     "message.conversion_complete.title": "Conversie voltooid",
     "message.conversion_complete.text": "{success} bestand(en) succesvol geconverteerd. {failed} bestand(en) met fouten. {skipped} bestand(en) overgeslagen.",
     "message.overwrite.title": "Outputbestand bestaat reeds",
-    "message.overwrite.text": "De volgende outputbestanden bestaan al:\\n\\n{filenames}\\n\\nWilt u deze overschrijven?\\n\\nJa = overschrijven\\nNee = dit bestand overslaan\\nAnnuleren = verdere conversie stoppen",
+    "message.overwrite.text": "De volgende outputbestanden bestaan al:\\n\\n{filenames}\\n\\nWilt u deze overschrijven?\\n\\nJa = alleen dit bestand overschrijven\\nJa op alles = dit en alle volgende conflicten overschrijven\\nNee = dit bestand overslaan\\nAnnuleren = verdere conversie stoppen",
     "message.settings_saved.title": "Instellingen",
     "message.settings_saved.text": "De instellingen zijn opgeslagen.",
     "message.reset_settings.title": "Standaardwaarden herstellen",
@@ -81,5 +101,30 @@
     "button.ok": "OK",
     "button.cancel": "Annuleren",
     "about.title": "Over Biesse2Csv",
-    "about.text": "Biesse2Csv converteert Biesse-machinebestanden naar CSV-bestanden voor gebruik in Excel en Power BI."
+    "about.text": "Biesse2Csv converteert Biesse-machinebestanden naar CSV-bestanden voor gebruik in Excel en Power BI.",
+    "main.select_all": "Alles selecteren",
+    "main.clear_selection": "Selectie wissen",
+    "main.select_unprocessed": "Niet-verwerkte selecteren",
+    "main.table.select": "Selectie",
+    "status.not_processed": "Niet verwerkt",
+    "status.processed": "Verwerkt",
+    "status.modified": "Gewijzigd sinds conversie",
+    "message.no_selection.title": "Geen bestanden geselecteerd",
+    "message.no_selection.text": "Selecteer minstens één bestand om te converteren.",
+    "main.table.processed_at": "Laatst verwerkt",
+    "main.status_input_unavailable": "Bronmap niet bereikbaar",
+    "message.input_folder_unavailable.title": "Bronmap niet bereikbaar",
+    "message.input_folder_unavailable.text": "De bronmap kan momenteel niet worden geopend:\\n\\n{folder}\\n\\nControleer de netwerkverbinding en uw Windows-aanmelding voor deze share.\\n\\nWindows-melding:\\n{error}",
+    "main.filter": "Filter",
+    "main.filter_placeholder": "Filter op bestandsnaam...",
+    "main.show_excluded": "Uitgesloten tonen",
+    "main.exclude_selected": "Selectie uitsluiten",
+    "main.restore_excluded": "Uitsluiting opheffen",
+    "main.error_details": "Foutdetails",
+    "filter.all_statuses": "Alle statussen",
+    "status.excluded": "Uitgesloten",
+    "message.error_details.title": "Foutdetails",
+    "message.error_details.text": "Bestand: {filename}\\n\\nFout:\\n{error}",
+    "message.error_details.none": "Voor dit bestand is geen foutmelding opgeslagen.",
+    "button.yes_to_all": "Ja op alles"
 }

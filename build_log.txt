@@ -1,10 +1,10 @@
---- Build gestart op 25/08/2026  8:29:24.04 --- 
-103 INFO: PyInstaller: 6.22.2, contrib hooks: 2026.7
-104 INFO: Python: 3.12.10
-137 INFO: Platform: Windows-11-10.0.26200-SP0
-137 INFO: Python environment: C:\PY\Biesse2Csv\.venv
-138 INFO: Removing temporary files and cleaning cache in C:\Users\BBossuyt\AppData\Local\pyinstaller
-140 INFO: Module search paths (PYTHONPATH):
+--- Build gestart op 26/08/2026  8:00:51.01 --- 
+136 INFO: PyInstaller: 6.22.2, contrib hooks: 2026.7
+137 INFO: Python: 3.12.10
+172 INFO: Platform: Windows-11-10.0.26200-SP0
+172 INFO: Python environment: C:\PY\Biesse2Csv\.venv
+174 INFO: Removing temporary files and cleaning cache in C:\Users\BBossuyt\AppData\Local\pyinstaller
+176 INFO: Module search paths (PYTHONPATH):
 ['C:\\PY\\Biesse2Csv',
  'C:\\Users\\BBossuyt\\AppData\\Local\\Programs\\Python\\Python312\\python312.zip',
  'C:\\Users\\BBossuyt\\AppData\\Local\\Programs\\Python\\Python312\\DLLs',
@@ -13,32 +13,28 @@
  'C:\\PY\\Biesse2Csv\\.venv',
  'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages',
  'C:\\PY\\Biesse2Csv']
-398 INFO: Appending 'datas' from .spec
-398 INFO: checking Analysis
-398 INFO: Building Analysis because Analysis-00.toc is non existent
-398 INFO: Looking for Python shared library...
-398 INFO: Using Python shared library: C:\Users\BBossuyt\AppData\Local\Programs\Python\Python312\python312.dll
-398 INFO: Running Analysis Analysis-00.toc
-398 INFO: Target bytecode optimization level: 0
-398 INFO: Initializing module dependency graph...
-399 INFO: Initializing module graph hook caches...
-407 INFO: Analyzing modules for base_library.zip ...
-1309 INFO: Processing standard module hook 'hook-encodings.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
-1742 INFO: Processing standard module hook 'hook-math.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
-2294 INFO: Processing standard module hook 'hook-pickle.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
-2794 INFO: Processing standard module hook 'hook-heapq.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
-3027 INFO: Caching module dependency graph...
-3047 INFO: Analyzing C:\PY\Biesse2Csv\app\main.py
-C:\PY\Biesse2Csv\app\main.py:20: SyntaxWarning: invalid escape sequence '\B'
-  %APPDATA%\Biesse2Csv\settings.json met eenmalige
-C:\PY\Biesse2Csv\app\main.py:72: SyntaxWarning: invalid escape sequence '\B'
-  %APPDATA%\Biesse2Csv
-3052 INFO: Processing standard module hook 'hook-PySide6.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
-3218 INFO: Processing standard module hook 'hook-shiboken6.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
-3302 INFO: Processing standard module hook 'hook-PySide6.QtNetwork.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
-4559 INFO: Processing standard module hook 'hook-PySide6.QtCore.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
-6626 INFO: Processing standard module hook 'hook-PySide6.QtGui.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
-16566 INFO: Processing standard module hook 'hook-PySide6.QtWidgets.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+496 INFO: Appending 'datas' from .spec
+496 INFO: checking Analysis
+496 INFO: Building Analysis because Analysis-00.toc is non existent
+496 INFO: Looking for Python shared library...
+496 INFO: Using Python shared library: C:\Users\BBossuyt\AppData\Local\Programs\Python\Python312\python312.dll
+496 INFO: Running Analysis Analysis-00.toc
+496 INFO: Target bytecode optimization level: 0
+496 INFO: Initializing module dependency graph...
+497 INFO: Initializing module graph hook caches...
+523 INFO: Analyzing modules for base_library.zip ...
+1532 INFO: Processing standard module hook 'hook-encodings.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+1878 INFO: Processing standard module hook 'hook-math.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+2243 INFO: Processing standard module hook 'hook-heapq.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+3849 INFO: Processing standard module hook 'hook-pickle.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+11153 INFO: Caching module dependency graph...
+11174 INFO: Analyzing C:\PY\Biesse2Csv\app\main.py
+11180 INFO: Processing standard module hook 'hook-PySide6.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+11344 INFO: Processing standard module hook 'hook-shiboken6.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+11437 INFO: Processing standard module hook 'hook-PySide6.QtNetwork.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+13464 INFO: Processing standard module hook 'hook-PySide6.QtCore.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+16061 INFO: Processing standard module hook 'hook-PySide6.QtGui.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+27054 INFO: Processing standard module hook 'hook-PySide6.QtWidgets.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
 C:\PY\Biesse2Csv\app\__init__.py:2: SyntaxWarning: invalid escape sequence '\_'
   app\__init__.py
 C:\PY\Biesse2Csv\app\gui\__init__.py:2: SyntaxWarning: invalid escape sequence '\_'
@@ -47,50 +43,46 @@ C:\PY\Biesse2Csv\app\gui\dialogs\__init__.py:2: SyntaxWarning: invalid escape se
   app\__init__.py
 C:\PY\Biesse2Csv\helpers\__init__.py:2: SyntaxWarning: invalid escape sequence '\_'
   helpers\__init__.py
-18598 INFO: Processing standard module hook 'hook-openpyxl.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
-19675 INFO: Processing standard module hook 'hook-xml.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
-19875 INFO: Processing standard module hook 'hook-xml.etree.cElementTree.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+28991 INFO: Processing standard module hook 'hook-openpyxl.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+29128 INFO: Processing standard module hook 'hook-xml.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+29256 INFO: Processing standard module hook 'hook-xml.etree.cElementTree.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
 C:\PY\Biesse2Csv\i18n\__init__.py:2: SyntaxWarning: invalid escape sequence '\_'
   i18n\__init__.py
-25573 INFO: Processing module hooks (post-graph stage)...
-26477 INFO: Performing binary vs. data reclassification (125 entries)
-28920 INFO: Looking for ctypes DLLs
-28922 INFO: Analyzing run-time hooks ...
-28923 INFO: Including run-time hook 'pyi_rth_inspect.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
-28967 INFO: Including run-time hook 'pyi_rth_pyside6.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
-29002 INFO: Processing pre-find-module-path hook 'hook-_pyi_rth_utils.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_find_module_path'
-29029 INFO: Processing standard module hook 'hook-_pyi_rth_utils.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
-29106 INFO: Creating base_library.zip...
-29126 INFO: Looking for dynamic libraries
-30348 INFO: Extra DLL search directories (AddDllDirectory): ['C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\shiboken6']
-30348 INFO: Extra DLL search directories (PATH): ['C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PySide6']
-31006 INFO: Warnings written to C:\PY\Biesse2Csv\build\Biesse2Csv\warn-Biesse2Csv.txt
-31022 INFO: Graph cross-reference written to C:\PY\Biesse2Csv\build\Biesse2Csv\xref-Biesse2Csv.html
-31223 INFO: checking PYZ
-31223 INFO: Building PYZ because PYZ-00.toc is non existent
-31223 INFO: Building PYZ (ZlibArchive) C:\PY\Biesse2Csv\build\Biesse2Csv\PYZ-00.pyz
-31372 INFO: Building PYZ (ZlibArchive) C:\PY\Biesse2Csv\build\Biesse2Csv\PYZ-00.pyz completed successfully.
-31377 INFO: checking PKG
-31377 INFO: Building PKG because PKG-00.toc is non existent
-31377 INFO: Building PKG (CArchive) Biesse2Csv.pkg
-C:\PY\Biesse2Csv\app\main.py:20: SyntaxWarning: invalid escape sequence '\B'
-  %APPDATA%\Biesse2Csv\settings.json met eenmalige
-C:\PY\Biesse2Csv\app\main.py:72: SyntaxWarning: invalid escape sequence '\B'
-  %APPDATA%\Biesse2Csv
-31491 INFO: Building PKG (CArchive) Biesse2Csv.pkg completed successfully.
-31492 INFO: Bootloader C:\PY\Biesse2Csv\.venv\Lib\site-packages\PyInstaller\bootloader\Windows-64bit-intel\runw.exe
-31492 INFO: checking EXE
-31492 INFO: Building EXE because EXE-00.toc is non existent
-31492 INFO: Building EXE from EXE-00.toc
-31492 INFO: Copying bootloader EXE to C:\PY\Biesse2Csv\build\Biesse2Csv\Biesse2Csv.exe
-31781 INFO: Copying icon to EXE
-31914 INFO: Copying 0 resources to EXE
-31914 INFO: Embedding manifest in EXE
-32057 INFO: Appending PKG archive to EXE
-32166 INFO: Fixing EXE headers
-33347 INFO: Building EXE from EXE-00.toc completed successfully.
-33349 INFO: checking COLLECT
-33349 INFO: Building COLLECT because COLLECT-00.toc is non existent
-33349 INFO: Building COLLECT COLLECT-00.toc
-33992 INFO: Building COLLECT COLLECT-00.toc completed successfully.
-33995 INFO: Build complete! The results are available in: C:\PY\Biesse2Csv\dist
+29952 INFO: Processing module hooks (post-graph stage)...
+30932 INFO: Performing binary vs. data reclassification (125 entries)
+33080 INFO: Looking for ctypes DLLs
+33082 INFO: Analyzing run-time hooks ...
+33083 INFO: Including run-time hook 'pyi_rth_inspect.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+33096 INFO: Including run-time hook 'pyi_rth_pyside6.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+33139 INFO: Processing pre-find-module-path hook 'hook-_pyi_rth_utils.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_find_module_path'
+33150 INFO: Processing standard module hook 'hook-_pyi_rth_utils.py' from 'C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+33172 INFO: Creating base_library.zip...
+33185 INFO: Looking for dynamic libraries
+33558 INFO: Extra DLL search directories (AddDllDirectory): ['C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\shiboken6']
+33558 INFO: Extra DLL search directories (PATH): ['C:\\PY\\Biesse2Csv\\.venv\\Lib\\site-packages\\PySide6']
+34365 INFO: Warnings written to C:\PY\Biesse2Csv\build\Biesse2Csv\warn-Biesse2Csv.txt
+34383 INFO: Graph cross-reference written to C:\PY\Biesse2Csv\build\Biesse2Csv\xref-Biesse2Csv.html
+34440 INFO: checking PYZ
+34440 INFO: Building PYZ because PYZ-00.toc is non existent
+34440 INFO: Building PYZ (ZlibArchive) C:\PY\Biesse2Csv\build\Biesse2Csv\PYZ-00.pyz
+34595 INFO: Building PYZ (ZlibArchive) C:\PY\Biesse2Csv\build\Biesse2Csv\PYZ-00.pyz completed successfully.
+34601 INFO: checking PKG
+34601 INFO: Building PKG because PKG-00.toc is non existent
+34601 INFO: Building PKG (CArchive) Biesse2Csv.pkg
+34647 INFO: Building PKG (CArchive) Biesse2Csv.pkg completed successfully.
+34648 INFO: Bootloader C:\PY\Biesse2Csv\.venv\Lib\site-packages\PyInstaller\bootloader\Windows-64bit-intel\runw.exe
+34648 INFO: checking EXE
+34648 INFO: Building EXE because EXE-00.toc is non existent
+34648 INFO: Building EXE from EXE-00.toc
+34648 INFO: Copying bootloader EXE to C:\PY\Biesse2Csv\build\Biesse2Csv\Biesse2Csv.exe
+34922 INFO: Copying icon to EXE
+35036 INFO: Copying 0 resources to EXE
+35037 INFO: Embedding manifest in EXE
+35150 INFO: Appending PKG archive to EXE
+35403 INFO: Fixing EXE headers
+56308 INFO: Building EXE from EXE-00.toc completed successfully.
+56311 INFO: checking COLLECT
+56311 INFO: Building COLLECT because COLLECT-00.toc is non existent
+56311 INFO: Building COLLECT COLLECT-00.toc
+64640 INFO: Building COLLECT COLLECT-00.toc completed successfully.
+64645 INFO: Build complete! The results are available in: C:\PY\Biesse2Csv\dist
