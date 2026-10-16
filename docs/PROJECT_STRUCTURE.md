@@ -4,6 +4,10 @@ _Automatisch gegenereerd – niet handmatig aanpassen._
 
 - 📁 **Biesse2Csv/**
   - 📁 **app/**
+    - 📁 **gui/**
+      - 📁 **dialogs/**
+        - 📄 **/app/gui/dialogs/settings_dialog.py**
+      - 📄 **/app/gui/main_window.py**
     - 📄 **/app/main.py**
     - 📄 **/app/version.py**
   - 📁 **assets/**
@@ -20,6 +24,7 @@ _Automatisch gegenereerd – niet handmatig aanpassen._
       - 📄 **/assets/icons/logo.ico**
       - 📄 **/assets/icons/settings.png**
   - 📁 **config/**
+    - 📄 **/config/settings_manager.py**
   - 📁 **css/**
     - 📄 **/css/detail.qss**
     - 📄 **/css/main.qss**
@@ -27,7 +32,10 @@ _Automatisch gegenereerd – niet handmatig aanpassen._
     - 📄 **/data/.gitkeep**
   - 📁 **docs/**
     - 📄 **/docs/changelog.md**
+    - 📄 **/docs/PROJECT_STRUCTURE.md**
   - 📁 **helpers/**
+    - 📄 **/helpers/biesse_converter.py**
+    - 📄 **/helpers/conversion_history.py**
   - 📁 **i18n/**
     - 📁 **locales/**
       - 📄 **/i18n/locales/de_DE.json**
@@ -37,6 +45,8 @@ _Automatisch gegenereerd – niet handmatig aanpassen._
       - 📄 **/i18n/locales/nl_NL.json**
     - 📄 **/i18n/README.md**
     - 📄 **/i18n/translator.py**
+  - 📁 **installer/**
+    - 📄 **/installer/Biesse2Csv_setup.iss**
   - 📁 **md/**
     - 📄 **/md/help.md**
   - 📁 **scripts/**
@@ -47,27 +57,25 @@ _Automatisch gegenereerd – niet handmatig aanpassen._
     - 📄 **/scripts/validate_project.py**
   - 📁 **tests/**
   - 📁 **utils/**
-  - 📁 **venv/**
-    - 📁 **Include/**
-    - 📁 **Scripts/**
-      - 📄 **/venv/Scripts/activate**
-      - 📄 **/venv/Scripts/activate.bat**
-      - 📄 **/venv/Scripts/Activate.ps1**
-      - 📄 **/venv/Scripts/deactivate.bat**
-      - 📄 **/venv/Scripts/pip.exe**
-      - 📄 **/venv/Scripts/pip3.12.exe**
-      - 📄 **/venv/Scripts/pip3.exe**
-      - 📄 **/venv/Scripts/python.exe**
-      - 📄 **/venv/Scripts/pythonw.exe**
-    - 📄 **/venv/pyvenv.cfg**
+  - 📄 **/.gitattributes**
   - 📄 **/.gitignore**
   - 📄 **/Biesse2Csv.spec**
+  - 📄 **/build.bat**
+  - 📄 **/BUILD.md**
+  - 📄 **/build_and_publish.ps1**
+  - 📄 **/build_fixed.bat**
+  - 📄 **/build_log.txt**
+  - 📄 **/build_v4.bat**
+  - 📄 **/bump_version.py**
   - 📄 **/CONTRIBUTING.md**
   - 📄 **/export_to_usb.bat**
+  - 📄 **/find_signtool.py**
   - 📄 **/LICENSE**
   - 📄 **/Makefile**
   - 📄 **/MANIFEST.in**
   - 📄 **/pyproject.toml**
+  - 📄 **/read_version.py**
   - 📄 **/README.md**
+  - 📄 **/requirements-build.txt**
   - 📄 **/requirements.txt**
   - 📄 **/setup.py**
